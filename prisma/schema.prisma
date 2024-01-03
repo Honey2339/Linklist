@@ -1,0 +1,100 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model Post {
+    id              Int      @id @default(autoincrement())
+    question        String
+    description     String
+    votes           Int @default(0)
+    answers         Int @default(0)
+    views           Int @default(0)
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+
+    createdBy       User   @relation(fields: [createdById], references: [id])
+    createdById     String
+    @@index([question])
+}
+
+
+// Necessary for Next auth
+model Account {
+    id                String  @id @default(cuid())
+    userId            String
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String? // @db.Text
+    access_token      String? // @db.Text
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String? // @db.Text
+    session_state     String?
+    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([provider, providerAccountId])
+}
+
+model LinkTreeUser {
+    id              String?
+    userId          String  @id @unique
+    displayName     String
+    location        String
+    bio             String
+    avatar          String?
+    banner          String?
+    linkedIn        String?
+    github          String?
+    instagram       String?
+    youtube         String?
+    Projects        UserProjects[]
+}
+
+model UserProjects {
+    id              Int     @id @default(autoincrement())
+    userId          String
+    name            String
+    description     String
+    link            String
+    linktreeuser    LinkTreeUser @relation(fields: [userId] , references: [userId])
+}
+
+model User {
+    id            String    @id @default(cuid())
+    name          String?
+    username      String?
+    password      String?
+    email         String?   @unique
+    emailVerified DateTime?
+    image         String?
+    banner        String?
+    accounts      Account[]
+    posts         Post[]
+    sessions      Session[]
+}
+
+model Session {
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+
+model VerificationToken {
+    identifier String
+    token      String   @unique
+    expires    DateTime
+
+    @@unique([identifier, token])
+}
