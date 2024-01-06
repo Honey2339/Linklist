@@ -41,10 +41,7 @@ export default function BannerUpload({ setUserData }: AddSocialsSheetProps) {
   }
   return (
     <div>
-      <CldUploadWidget
-        onUpload={onUpload}
-        uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
-      >
+      <CldUploadWidget onUpload={onUpload} uploadPreset="epzgatjo">
         {({ open }) => {
           const onClick = () => {
             open();
