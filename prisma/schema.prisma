@@ -45,7 +45,7 @@ model Account {
 }
 
 model LinkTreeUser {
-    id              String?
+    id              Int     @default(autoincrement())
     userId          String  @id @unique
     displayName     String
     location        String
@@ -61,11 +61,13 @@ model LinkTreeUser {
 
 model UserProjects {
     id              Int     @id @default(autoincrement())
-    userId          String
-    name            String
+    userId          String  
+    title            String
     description     String
     link            String
     linktreeuser    LinkTreeUser @relation(fields: [userId] , references: [userId])
+
+    @@index([userId])
 }
 
 model User {

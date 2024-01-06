@@ -1,6 +1,11 @@
 import { UserProjects } from "@/app/utils";
-import React from "react";
+import { useSession } from "next-auth/react";
+import React, { useEffect, useState } from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
+
+interface ApiResponse {
+  data: UserProjects[];
+}
 
 const ProjectCard = ({ title, description, link }: UserProjects) => {
   return (
@@ -21,18 +26,34 @@ const ProjectCard = ({ title, description, link }: UserProjects) => {
 };
 
 export default function Projects() {
+  const { data: session } = useSession();
+  const userId = session?.user.id;
+  const [userProjects, setUserProjects] = useState<ApiResponse | undefined>();
+  useEffect(() => {
+    if (userId) {
+      const fetchData = async () => {
+        const response = await fetch("/api/routes/getProjectsById", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId }),
+        });
+        const userProject = await response.json();
+        setUserProjects(userProject);
+      };
+      fetchData();
+    }
+  }, [userId]);
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto max-w-screen-xl mt-10">
-      <ProjectCard
-        title="Project 1"
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-        link="https://example.com/project1"
-      />
-      <ProjectCard
-        title="Project 2"
-        description="Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        link="https://example.com/project2"
-      />
+      {userProjects &&
+        userProjects?.data.map((data) => (
+          <ProjectCard
+            key={data.title}
+            title={data.title}
+            description={data.description}
+            link={`${data.link}`}
+          />
+        ))}
     </div>
   );
 }

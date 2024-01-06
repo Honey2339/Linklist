@@ -1,4 +1,4 @@
-import { UserProjectsType } from "@/app/utils";
+import { UserProjectsType, initialUserProjectData } from "@/app/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -13,13 +13,29 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import { Space_Grotesk } from "next/font/google";
-import { useState } from "react";
+import { title } from "process";
+import { useEffect, useState } from "react";
 
 const space = Space_Grotesk({ subsets: ["latin"], weight: "500" });
 
 export default function AddProjectsSheet() {
   const { data: session } = useSession();
-  const [userProjects, setUserProjects] = useState<UserProjectsType>();
+  const [userProjects, setUserProjects] = useState<UserProjectsType>(
+    initialUserProjectData
+  );
+  const userId = session?.user.id;
+  const handleUserProjects = async () => {
+    if (userId) {
+      const response = await fetch("/api/routes/sendProjectData", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, userProjects }),
+      });
+      const data = await response.json();
+      console.log(data);
+    }
+  };
+
   return (
     <div>
       <Sheet>
@@ -37,21 +53,44 @@ export default function AddProjectsSheet() {
           </SheetTitle>
           <div className="space-y-1">
             <SheetTitle className="text-lg">Title :</SheetTitle>
-            <Input placeholder="Add Title of your project" />
+            <Input
+              placeholder="Add Title of your project"
+              onChange={(e) =>
+                setUserProjects((prevData) => ({
+                  ...prevData,
+                  title: e.target.value,
+                }))
+              }
+            />
           </div>
           <div className="space-y-1">
             <SheetTitle className="text-lg">Description :</SheetTitle>
             <Textarea
               className="resize-none"
               placeholder="Add Description of your project"
+              onChange={(e) =>
+                setUserProjects((prevData) => ({
+                  ...prevData,
+                  description: e.target.value,
+                }))
+              }
             />
           </div>
           <div className="space-y-1">
             <SheetTitle className="text-sm">Live Link</SheetTitle>
-            <Input className="resize-none" placeholder="http://..." />
+            <Input
+              className="resize-none"
+              placeholder="http://..."
+              onChange={(e) =>
+                setUserProjects((prevData) => ({
+                  ...prevData,
+                  link: e.target.value,
+                }))
+              }
+            />
           </div>
           <SheetTrigger asChild>
-            <Button>Save</Button>
+            <Button onClick={handleUserProjects}>Save</Button>
           </SheetTrigger>
         </SheetContent>
       </Sheet>

@@ -18,7 +18,6 @@ import { useEffect, useState } from "react";
 import { UserData, UserDataSchema, initialUserData } from "@/app/utils";
 import { z } from "zod";
 import { useToast } from "@/components/ui/use-toast";
-import AddProjectsSheet from "./addprojectssheet";
 
 const space = Space_Grotesk({ subsets: ["latin"], weight: "500" });
 
@@ -175,7 +174,6 @@ const Profile: React.FC = () => {
             />
             <div className="flex items-center mt-4 space-x-2">
               <AddSocialsSheet userData={userData} setUserData={setUserData} />
-              <AddProjectsSheet />
             </div>
             <div className="mt-2">
               <Button
