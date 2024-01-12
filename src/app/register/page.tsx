@@ -17,11 +17,14 @@ import { Space_Grotesk } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { FaGithub } from "react-icons/fa";
 import { signIn } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { redirect, useRouter } from "next/navigation";
 
 const space = Space_Grotesk({ subsets: ["latin"], weight: "700" });
-// Define form schema using Zod
+
 const FormSchema = z
   .object({
+    email: z.string().email(),
     username: z
       .string()
       .min(2, { message: "Username must be atleast 2 characters." }),
@@ -35,15 +38,31 @@ const FormSchema = z
     path: ["confirmPassword"],
   });
 export default function RegisterPage() {
+  const router = useRouter();
   const form = useForm({ resolver: zodResolver(FormSchema) });
+  const [errorMsg, setErrorMsg] = useState<string | null | undefined>(null);
 
   const handleGithubLogin = () => {
     signIn("github", { callbackUrl: "/mypage" });
   };
 
-  function onSubmit(data: any) {
-    // Handle form submission
+  async function onSubmit(data: any) {
     console.log(data);
+    const res = await signIn("credentials", {
+      email: data.email,
+      name: data.username,
+      password: data.password,
+      redirect: false,
+    }).then((data) => {
+      console.log(data);
+      setErrorMsg(data?.error);
+      setTimeout(() => {
+        setErrorMsg(null);
+      }, 2000);
+      if (data?.status == 200) {
+        router.push("/mypage");
+      }
+    });
   }
 
   return (
@@ -59,6 +78,23 @@ export default function RegisterPage() {
         </h1>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="placeholder@example.com"
+                      {...field}
+                      type="text"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="username"
@@ -107,7 +143,11 @@ export default function RegisterPage() {
               )}
             />
             <div className="flex justify-center">
-              <Button className="text-base px-10" type="submit">
+              <Button
+                className="text-base px-10"
+                type="button"
+                onClick={() => form.handleSubmit(onSubmit)()}
+              >
                 Submit
               </Button>
             </div>

@@ -21,9 +21,7 @@ import { signIn } from "next-auth/react";
 const space = Space_Grotesk({ subsets: ["latin"], weight: "700" });
 // Define form schema using Zod
 const FormSchema = z.object({
-  username: z
-    .string()
-    .min(2, { message: "Username must be at least 2 characters." }),
+  email: z.string().email(),
   password: z
     .string()
     .min(8, { message: "Password must be at least 8 characters." }),
@@ -35,8 +33,12 @@ export default function LoginPage() {
     signIn("github", { callbackUrl: "/mypage" });
   };
   function onSubmit(data: any) {
-    // Handle form submission
     console.log(data);
+    signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      redirect: false,
+    });
   }
 
   return (
@@ -56,12 +58,16 @@ export default function LoginPage() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
-              name="username"
+              name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Username..." {...field} type="text" />
+                    <Input
+                      placeholder="placeholder@example.com"
+                      {...field}
+                      type="text"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
