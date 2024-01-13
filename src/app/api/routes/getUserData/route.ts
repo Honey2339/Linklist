@@ -4,7 +4,7 @@ import { db } from "../../auth/[...nextauth]/db";
 export async function POST(req: NextRequest, res: NextResponse) {
   const { userId } = await req.json();
   if (userId) {
-    const getUserData = await db.linkTreeUser.findUnique({
+    const getUserData = await db.linkTreeUser.findFirst({
       where: { userId },
       select: {
         userId: true,

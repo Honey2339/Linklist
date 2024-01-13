@@ -11,23 +11,31 @@ import cuid from "cuid";
 
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: async ({ session, user }) => {
-      if (user?.id) {
+    jwt: async ({ token, user }) => {
+      if (user) {
+        token.uid = user.id;
+      }
+      return token
+    },
+    session: async ({ session , token}) => {
+      if (token.uid) {
+        session.user.id = token.uid;
+      }
+      if (session.user.id) {
         const userBanner = await db.user.findUnique({
-          where: { id: user.id },
+          where: { id: session.user.id },
           select: { banner: true },
         });
         return {
           ...session,
           user: {
             ...session.user,
-            id: user.id,
-            banner: userBanner ?? "",
+            id: session.user.id,
+            banner: userBanner?.banner ?? "",
           },
         };
-      } else {
-        return session;
       }
+      return session;
     },
   },
   adapter: PrismaAdapter(db),

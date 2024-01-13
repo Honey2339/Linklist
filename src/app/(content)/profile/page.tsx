@@ -43,6 +43,8 @@ const Profile: React.FC = () => {
   const userId = session?.user?.id;
   const { toast } = useToast();
 
+  console.log(session?.user.id)
+
   useEffect(() => {
     if (userId) {
       const fetchData = async () => {
