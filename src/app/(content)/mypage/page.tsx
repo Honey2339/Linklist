@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 const MyPage: React.FC = () => {
   const { data: session } = useSession();
   const [gotUserData, setGotUserData] = useState<any>([]);
+  const [errorMsg, setErrorMsg] = useState<{ Message?: string }>({});
   const userId = session?.user?.id;
   useEffect(() => {
     if (userId) {
@@ -76,10 +77,13 @@ const MyPage: React.FC = () => {
               </div>
             </div>
             <div className="">
+              <h1 className="text-destructive font-sm text-center">
+                {errorMsg.Message}
+              </h1>
               <Projects />
             </div>
             <div className="mt-20 text-center">
-              <AddProjectsSheet />
+              <AddProjectsSheet setErrorMsg={setErrorMsg} />
             </div>
           </div>
         ) : (

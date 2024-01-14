@@ -15,9 +15,9 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.uid = user.id;
       }
-      return token
+      return token;
     },
-    session: async ({ session , token}) => {
+    session: async ({ session, token }) => {
       if (token.uid) {
         session.user.id = token.uid;
       }
@@ -52,46 +52,67 @@ export const authOptions: NextAuthOptions = {
         email: {},
       },
       async authorize(credentials, req) {
-        const { name, email, password } = credentials as {
+        const { name, email, password, flag } = credentials as {
           name: string;
           email: string;
           password: string;
+          flag: number;
         };
-        if (!email && !password) {
+        if (!email || !password) {
           return null;
         }
         const userExist = await db.user.findFirst({
           where: { email },
-          select: { id: true, email: true, name: true, password: true },
+          select: {
+            id: true,
+            email: true,
+            name: true,
+            password: true,
+            banner: true,
+            image: true,
+          },
         });
-        if (userExist) {
-          if (userExist.password == password) {
-            return {
-              id: userExist.id,
-              name: userExist.name,
-              email: userExist.email,
-            };
+
+        //Login Attempt
+        if (flag == 98) {
+          if (userExist) {
+            if (userExist.password == password) {
+              return {
+                id: userExist.id,
+                name: userExist.name,
+                email: userExist.email,
+                image: userExist.image,
+                banner: userExist.banner,
+              };
+            } else {
+              throw new Error("Invalid Credentials");
+            }
           }
         }
-        if (!userExist) {
-          const userId = cuid();
-          const user = await db.user.create({
-            data: {
-              id: userId,
-              email: email,
-              name: name,
-              password: password,
-              image: null,
-              banner: null,
-            },
-          });
-          return { id: userId, name: name, email: email };
+        // Register Attempt
+        if (flag == 99) {
+          if (!userExist) {
+            const userId = cuid();
+            if (password && email && name) {
+              const user = await db.user.create({
+                data: {
+                  id: userId,
+                  email: email,
+                  name: name,
+                  password: password,
+                  image: null,
+                  banner: null,
+                },
+              });
+            }
+            return { id: userId, name: name, email: email };
+          }
         }
         return null;
       },
     }),
   ],
-  pages: { signIn: "/register" },
+  pages: { newUser: "/register", signIn: "/login" },
   session: {
     strategy: "jwt",
   },

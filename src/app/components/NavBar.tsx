@@ -18,7 +18,6 @@ import { Button } from "@/components/ui/button";
 const space = Space_Grotesk({ subsets: ["latin"], weight: "600" });
 export default function NavBar() {
   const { data: session } = useSession();
-
   const handleSignOutGithub = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     signOut({ callbackUrl: "/" });

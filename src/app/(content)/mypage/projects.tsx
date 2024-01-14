@@ -47,12 +47,14 @@ export default function Projects() {
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto max-w-screen-xl mt-10">
       {userProjects &&
         userProjects?.data.map((data) => (
-          <ProjectCard
-            key={data.title}
-            title={data.title}
-            description={data.description}
-            link={`${data.link}`}
-          />
+          <div>
+            <ProjectCard
+              key={data.title}
+              title={data.title}
+              description={data.description}
+              link={`${data.link}`}
+            />
+          </div>
         ))}
     </div>
   );

@@ -48,10 +48,12 @@ export default function RegisterPage() {
 
   async function onSubmit(data: any) {
     console.log(data);
+    const flag = 99;
     const res = await signIn("credentials", {
       email: data.email,
       name: data.username,
       password: data.password,
+      flag: flag,
       redirect: false,
     }).then((data) => {
       console.log(data);

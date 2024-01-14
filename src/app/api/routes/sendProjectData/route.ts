@@ -7,14 +7,19 @@ export async function POST(req: NextRequest, res: NextResponse) {
     where: { userId: userId },
   });
   if (userExist) {
-    await db.userProjects.create({
-      data: {
-        userId: userId,
-        title: userProjects.title,
-        description: userProjects.description,
-        link: userProjects.link,
-      },
-    });
+    const count = await db.userProjects.count({ where: { userId: userId } });
+    if (count < 4) {
+      await db.userProjects.create({
+        data: {
+          userId: userId,
+          title: userProjects.title,
+          description: userProjects.description,
+          link: userProjects.link,
+        },
+      });
+    } else {
+      return NextResponse.json({ Message: "You can only show 4 projects" });
+    }
   } else {
     return NextResponse.json({ Message: "User not found" });
   }

@@ -17,6 +17,8 @@ import { Space_Grotesk } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { FaGithub } from "react-icons/fa";
 import { signIn } from "next-auth/react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const space = Space_Grotesk({ subsets: ["latin"], weight: "700" });
 // Define form schema using Zod
@@ -32,12 +34,25 @@ export default function LoginPage() {
   const handleGithubLogin = () => {
     signIn("github", { callbackUrl: "/mypage" });
   };
-  function onSubmit(data: any) {
+
+  const [errorMsg, setErrorMsg] = useState<string | null | undefined>(null);
+  const router = useRouter();
+  async function onSubmit(data: any) {
     console.log(data);
-    signIn("credentials", {
+    const flag = 98;
+    const res = await signIn("credentials", {
       email: data.email,
       password: data.password,
+      flag: flag,
       redirect: false,
+    }).then((data) => {
+      setErrorMsg(data?.error);
+      setTimeout(() => {
+        setErrorMsg(null);
+      }, 2000);
+      if (data?.status == 200) {
+        router.push("/mypage");
+      }
     });
   }
 
@@ -90,6 +105,7 @@ export default function LoginPage() {
                 </FormItem>
               )}
             />
+            <h1 className="text-center text-destructive text-sm">{errorMsg}</h1>
             <div className="flex justify-center">
               <Button className="text-base px-10" type="submit">
                 Submit
