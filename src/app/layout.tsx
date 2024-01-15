@@ -5,6 +5,7 @@ import NavBar from "./components/NavBar";
 import Provider from "./context/provider";
 import { Session } from "next-auth";
 import { Toaster } from "@/components/ui/toaster";
+import { boolean } from "zod";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -24,7 +25,6 @@ export default function RootLayout({
       <body className={inter.className}>
         <Provider session={session}>
           <main>
-            <NavBar />
             <div id="bg-grid">
               <div id="blur-grid"></div>
             </div>

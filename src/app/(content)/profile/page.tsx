@@ -101,7 +101,7 @@ const Profile: React.FC = () => {
     <main className="h-[91vh] flex items-center justify-center">
       <section className="min-h-[80vh] w-[1300px] rounded-xl border-2 border-gray-200 shadow-lg">
         <Image
-          src={session?.user?.banner?.banner ?? "/defaultBanner.jpg"}
+          src={session?.user.banner ?? "/defaultBanner.jpg"}
           height={50}
           width={1000}
           className="w-full h-[200px] object-cover"
