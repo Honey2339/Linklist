@@ -14,8 +14,8 @@ export default function NoNavbarLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <body>
-        <main>
+      <body className="">
+        <main className="">
           <div id="bg-grid">
             <div id="blur-grid"></div>
           </div>

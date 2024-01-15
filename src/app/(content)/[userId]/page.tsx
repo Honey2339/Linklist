@@ -8,6 +8,7 @@ import Link from "next/link";
 import PerUserProject from "./projects";
 import { SyncLoader } from "react-spinners";
 import SkeletonCard from "./skeleton";
+import { Button } from "@/components/ui/button";
 
 export default function PerUserPage() {
   const { userId } = useParams();
@@ -57,22 +58,27 @@ export default function PerUserPage() {
                   <h1 className="text-2xl font-semibold">
                     {gotUserData?.Message?.displayName}
                   </h1>
-                  <h1 className="text-gray-600">{gotUserData.Message.bio}</h1>
+                  <h1 className="text-gray-600 text-sm">
+                    {gotUserData.Message.bio}
+                  </h1>
+                  <h1 className="text-gray-600 text-sm">
+                    {gotUserData.Message.location}
+                  </h1>
                 </div>
                 <div className="mt-2 flex items-center gap-4">
                   {gotUserData?.Message?.linkedIn ? (
                     <Link href={`${gotUserData?.Message?.linkedIn}`}>
-                      <SiLinkedin />
+                      <SiLinkedin fill={"#0051ff"} />
                     </Link>
                   ) : null}
                   {gotUserData?.Message?.instagram ? (
                     <Link href={`${gotUserData?.Message?.instagram}`}>
-                      <SiInstagram />
+                      <SiInstagram fill={"#fccc63"} />
                     </Link>
                   ) : null}
                   {gotUserData?.Message?.youtube ? (
                     <Link href={`${gotUserData?.Message?.youtube}`}>
-                      <SiYoutube />
+                      <SiYoutube fill={"#FF0000"} />
                     </Link>
                   ) : null}
                   {gotUserData?.Message?.github ? (
@@ -85,7 +91,13 @@ export default function PerUserPage() {
               <div className="">
                 <PerUserProject userId={userId} />
               </div>
-              <div className="flex mt-2 justify-center items-center"></div>
+              <div className="mt-32 flex justify-center items-center">
+                <a href="http://linklist-honey.vercel.app">
+                  <Button variant="link" className="text-sm">
+                    Create Your Own List
+                  </Button>
+                </a>
+              </div>
             </div>
           ) : (
             <div className="h-[80vh] flex flex-col justify-center items-center text-2xl mt-20 text-center">
