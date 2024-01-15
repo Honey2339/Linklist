@@ -25,6 +25,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Provider session={session}>
           <main>
+            <NavBar />
             <div id="bg-grid">
               <div id="blur-grid"></div>
             </div>
