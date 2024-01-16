@@ -13,13 +13,12 @@ export const metadata: Metadata = {
   description: "One Click Link To Every Social",
 };
 
-export default function RootLayout({
-  children,
-  session,
-}: {
+type RootLayoutProps = {
   children: React.ReactNode;
   session: Session;
-}) {
+};
+
+export default function RootLayout({ children, session }: RootLayoutProps) {
   return (
     <html lang="en">
       <body className={inter.className}>
