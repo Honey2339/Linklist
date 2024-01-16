@@ -29,7 +29,7 @@ const AboutPage = () => {
       </ul>
       <p className="text-lg mt-6">
         Feel free to explore and contribute to the project. If you have any
-        questions or suggestions, don't hesitate to{" "}
+        questions or suggestions, dont hesitate to{" "}
         <a href="/contact" rel="noopener noreferrer" className="underline">
           reach out
         </a>
