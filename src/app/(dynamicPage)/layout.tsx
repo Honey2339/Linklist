@@ -1,19 +1,12 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-
-import { Session } from "next-auth";
 import { Toaster } from "@/components/ui/toaster";
-import { boolean } from "zod";
-import NavBar from "@/app/components/NavBar";
-import Provider from "../../context/provider";
-
+import "../globals.css";
 export default function NoNavbarLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning={true}>
+    <html lang="en">
       <body className="">
         <main className="">
           <div id="bg-grid">

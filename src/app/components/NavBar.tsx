@@ -39,9 +39,12 @@ export default function NavBar() {
           </Link>
 
           <nav className="flex items-center gap-4 text-slate-500 text-sm">
-            <Link href={"/about"}>About</Link>
-            <Link href={"/pricing"}>Pricing</Link>
-            <Link href={"/contact"}>Contact</Link>
+            <Link href="/about">
+              <span className="hover:bg-gray-200 p-2 rounded">About</span>
+            </Link>
+            <Link href="/contact">
+              <span className="hover:bg-gray-200 p-2 rounded">Contact</span>
+            </Link>
           </nav>
         </div>
         {session?.user?.name ? (

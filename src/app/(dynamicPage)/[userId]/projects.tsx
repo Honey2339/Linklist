@@ -11,11 +11,19 @@ interface PerUserProjectProps {
   userId: string | string[];
 }
 
+const truncatedDescription = (description: any, maxLength: any) => {
+  if (description.length > maxLength) {
+    return `${description.substring(0, maxLength)}...`;
+  }
+  return description;
+};
+
 const ProjectCard: React.FC<Project> = ({ title, description, link }) => {
+  const truncateDescription = truncatedDescription(description, 100);
   return (
     <div className="max-w-md bg-white border-2 border-gray-300 p-4 rounded-md shadow-md">
       <h2 className="text-xl font-semibold mb-2">{title}</h2>
-      <p className="text-gray-600 mb-4">{description}</p>
+      <p className="text-gray-600 mb-4">{truncateDescription}</p>
       <a
         href={link}
         target="_blank"

@@ -7,11 +7,19 @@ interface ApiResponse {
   data: UserProjects[];
 }
 
+const truncateDescription = (description: any, maxLength: any) => {
+  if (description.length > maxLength) {
+    return `${description.substring(0, maxLength)}...`;
+  }
+  return description;
+};
+
 const ProjectCard = ({ title, description, link }: UserProjects) => {
+  const truncatedDescription = truncateDescription(description, 100);
   return (
     <div className="max-w-md bg-white border-2 border-gray-300 p-4 rounded-md shadow-md">
       <h2 className="text-xl font-semibold mb-2">{title}</h2>
-      <p className="text-gray-600 mb-4">{description}</p>
+      <p className="text-gray-600 mb-4">{truncatedDescription}</p>
       <a
         href={link}
         target="_blank"
@@ -43,6 +51,7 @@ export default function Projects() {
       fetchData();
     }
   }, [userId]);
+
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto max-w-screen-xl mt-10">
       {userProjects &&
