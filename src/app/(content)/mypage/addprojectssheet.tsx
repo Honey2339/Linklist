@@ -14,11 +14,11 @@ import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import { Space_Grotesk } from "next/font/google";
 import { title } from "process";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 const space = Space_Grotesk({ subsets: ["latin"], weight: "500" });
 
-export default function AddProjectsSheet() {
+export default function AddProjectsSheet({ setErrorMsg }: any) {
   const { data: session } = useSession();
   const [userProjects, setUserProjects] = useState<UserProjectsType>(
     initialUserProjectData
@@ -33,6 +33,10 @@ export default function AddProjectsSheet() {
       });
       const data = await response.json();
       console.log(data);
+      setErrorMsg(data);
+      setTimeout(() => {
+        setErrorMsg([]);
+      }, 3000);
     }
   };
 

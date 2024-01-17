@@ -17,56 +17,72 @@ import { Space_Grotesk } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { FaGithub } from "react-icons/fa";
 import { signIn } from "next-auth/react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const space = Space_Grotesk({ subsets: ["latin"], weight: "700" });
 // Define form schema using Zod
-const FormSchema = z
-  .object({
-    username: z
-      .string()
-      .min(2, { message: "Username must be atleast 2 characters." }),
-    password: z
-      .string()
-      .min(8, { message: "Password must be atleast 8 characters." }),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Password Does not Match",
-    path: ["confirmPassword"],
-  });
-export default function RegisterPage() {
-  const form = useForm({ resolver: zodResolver(FormSchema) });
+const FormSchema = z.object({
+  email: z.string().email(),
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters." }),
+});
 
+export default function LoginPage() {
+  const form = useForm({ resolver: zodResolver(FormSchema) });
   const handleGithubLogin = () => {
     signIn("github", { callbackUrl: "/mypage" });
   };
 
-  function onSubmit(data: any) {
-    // Handle form submission
+  const [errorMsg, setErrorMsg] = useState<string | null | undefined>(null);
+  const router = useRouter();
+  async function onSubmit(data: any) {
     console.log(data);
+    const flag = 98;
+    const res = await signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      flag: flag,
+      redirect: false,
+    }).then((data) => {
+      setErrorMsg(data?.error);
+      setTimeout(() => {
+        setErrorMsg(null);
+      }, 2000);
+      if (data?.status == 200) {
+        router.push("/mypage");
+      }
+    });
   }
 
   return (
     <div className="flex flex-col items-center justify-center h-[90vh] ">
-      <div className="max-w-xl bg-white rounded-lg p-10 shadow-lg shadow-gray-700/20 ">
-        <h1
-          className={cn(
-            space.className,
-            "mb-10 font-medium text-3xl text-center underline"
-          )}
-        >
-          Register
-        </h1>
+      <div className="max-w-xl bg-white rounded-lg p-10 shadow-lg shadow-gray-700/20">
+        <div className="flex items-center">
+          <h1
+            className={cn(
+              space.className,
+              "mb-10 font-medium text-3xl text-center underline"
+            )}
+          >
+            Login
+          </h1>
+        </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
-              name="username"
+              name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Username..." {...field} type="text" />
+                    <Input
+                      placeholder="placeholder@example.com"
+                      {...field}
+                      type="text"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -89,23 +105,7 @@ export default function RegisterPage() {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Re-Type The Password..."
-                      {...field}
-                      type="password"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <h1 className="text-center text-destructive text-sm">{errorMsg}</h1>
             <div className="flex justify-center">
               <Button className="text-base px-10" type="submit">
                 Submit
@@ -117,7 +117,7 @@ export default function RegisterPage() {
         <div className="flex items-center justify-center">
           <div className="flex items-center space-x-2 bg-[#18181B] text-white py-2 text-sm px-3 rounded-md cursor-pointer">
             <FaGithub size={20} />
-            <button onClick={handleGithubLogin}>Sign up with GitHub</button>
+            <button onClick={handleGithubLogin}>Login with GitHub</button>
           </div>
         </div>
       </div>
