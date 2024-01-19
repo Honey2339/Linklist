@@ -8,7 +8,7 @@ export default function NoNavbarLayout({
   return (
     <html lang="en">
       <body className="">
-        <main className="">
+        <main>
           <div id="bg-grid">
             <div id="blur-grid"></div>
           </div>
