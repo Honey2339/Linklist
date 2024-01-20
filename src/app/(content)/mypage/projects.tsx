@@ -1,7 +1,7 @@
 import { UserProjects } from "@/app/utils";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
-import { FaExternalLinkAlt } from "react-icons/fa";
+import { FaExternalLinkAlt, FaTrash } from "react-icons/fa";
 
 interface ApiResponse {
   data: UserProjects[];
@@ -14,21 +14,31 @@ const truncateDescription = (description: any, maxLength: any) => {
   return description;
 };
 
-const ProjectCard = ({ title, description, link }: UserProjects) => {
+const ProjectCard = ({
+  title,
+  description,
+  link,
+  deleteProject,
+}: UserProjects) => {
   const truncatedDescription = truncateDescription(description, 100);
   return (
-    <div className="max-w-md bg-white border-2 border-gray-300 p-4 rounded-md shadow-md">
+    <div className="max-w-md bg-gradient-to-r from-slate-100 to-zinc-300 border-2 border-zinc-400 p-4 rounded-md shadow-md">
       <h2 className="text-xl font-semibold mb-2">{title}</h2>
-      <p className="text-gray-600 mb-4">{truncatedDescription}</p>
-      <a
-        href={link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center text-blue-500 hover:underline"
-      >
-        Live Demo
-        <FaExternalLinkAlt className="ml-1" />
-      </a>
+      <p className="text-gray-800 mb-4">{truncatedDescription}</p>
+      <div className="flex justify-between">
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center text-blue-500 hover:underline"
+        >
+          Live Demo
+          <FaExternalLinkAlt className="ml-1" />
+        </a>
+        <button onClick={deleteProject}>
+          <FaTrash className="fill-destructive hover:fill-destructive/60" />
+        </button>
+      </div>
     </div>
   );
 };
@@ -52,8 +62,16 @@ export default function Projects() {
     }
   }, [userId]);
 
+  const deleteProjectByTitle = async (title: string | null | undefined) => {
+    await fetch("api/routes/deleteProjectByTitle", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId, title }),
+    }).then((data) => console.log(data));
+  };
+
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto max-w-screen-xl mt-10">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 mx-auto max-w-screen-xl mt-10">
       {userProjects &&
         userProjects?.data.map((data) => (
           <ProjectCard
@@ -61,6 +79,7 @@ export default function Projects() {
             title={data.title}
             description={data.description}
             link={`${data.link}`}
+            deleteProject={() => deleteProjectByTitle(data.title)}
           />
         ))}
     </div>

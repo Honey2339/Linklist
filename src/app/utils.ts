@@ -38,6 +38,7 @@ export interface UserProjects {
   title: string | null | undefined;
   description: string | null | undefined;
   link: string | undefined;
+  deleteProject: () => Promise<void>;
 }
 
 export const userProjectsSchema = z.object({
