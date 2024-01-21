@@ -67,9 +67,8 @@ const Profile: React.FC = () => {
   ) => {
     e.preventDefault();
     const userId = session?.user?.id;
-    const parsedUserData = UserDataSchema.parse(userData);
-    console.log(parsedUserData);
     try {
+      const parsedUserData = UserDataSchema.parse(userData);
       const response = await fetch("/api/routes/userdata", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -89,9 +88,6 @@ const Profile: React.FC = () => {
       if (error instanceof z.ZodError) {
         const errorMessage = error.errors.map((err) => err.message);
         setValidationError(errorMessage);
-        setTimeout(() => {
-          setValidationError([]);
-        }, 5000);
         console.log(errorMessage);
       }
       console.error(error);
