@@ -52,7 +52,7 @@ const MyPage: React.FC = () => {
 
   return (
     <main className="h-[91vh] flex items-center justify-center">
-      <section className="h-[90vh] w-[1800px] rounded-xl border-2 border-gray-200 shadow-lg">
+      <section className="h-[90vh] max-xl:max-h-[94vh] w-[1800px] rounded-xl border-2 border-gray-200 shadow-lg">
         {gotUserData?.Message?.displayName ? (
           <div>
             <div className="absolute top-64 left-1/2 transform -translate-x-1/2">
@@ -107,23 +107,25 @@ const MyPage: React.FC = () => {
               </h1>
               <Projects />
             </div>
-            <div className="mt-16 text-center">
-              <AddProjectsSheet setErrorMsg={setErrorMsg} />
-            </div>
-            <div className="flex mt-2 justify-center items-center">
-              <h1 className="mr-2">Your Link :</h1>
-              <div className="relative">
-                <Input
-                  className="border-2 border-blue-400 pr-10"
-                  value={`http://linklist-honey.vercel.app/${userId}`}
-                  readOnly
-                />
-                <button
-                  onClick={handleCopyToClipboard}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2"
-                >
-                  <HiClipboard className="text-gray-500 cursor-pointer" />
-                </button>
+            <div className="mb-9 lg:absolute lg:bottom-0 lg:left-1/2 lg:transform lg:-translate-x-1/2">
+              <div className="mt-16 text-center">
+                <AddProjectsSheet setErrorMsg={setErrorMsg} />
+              </div>
+              <div className="flex mt-2 justify-center items-center">
+                <h1 className="mr-2">Your Link :</h1>
+                <div className="relative">
+                  <Input
+                    className="border-2 border-blue-400 pr-10"
+                    value={`http://linklist-honey.vercel.app/${userId}`}
+                    readOnly
+                  />
+                  <button
+                    onClick={handleCopyToClipboard}
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                  >
+                    <HiClipboard className="text-gray-500 cursor-pointer" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>

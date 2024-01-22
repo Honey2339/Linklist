@@ -25,13 +25,11 @@ export default function RootLayout({
       <body className={inter.className}>
         <Provider session={session}>
           <NavBar />
-          <main>
-            <div id="bg-grid">
-              <div id="blur-grid"></div>
-            </div>
-            {children}
-            <Toaster />
-          </main>
+          <div id="bg-grid">
+            <div id="blur-grid"></div>
+          </div>
+          {children}
+          <Toaster />
         </Provider>
       </body>
     </html>
