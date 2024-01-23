@@ -24,7 +24,7 @@ export default function NavBar() {
   };
 
   return (
-    <header className="bg-white border-b p-4">
+    <header className="bg-white border-b shadow-lg p-4">
       <div className="max-w-4xl flex justify-between mx-auto px-6 items-center">
         <div className="flex gap-6">
           <Link
@@ -86,8 +86,12 @@ export default function NavBar() {
           </DropdownMenu>
         ) : (
           <nav className="flex gap-4 text-sm text-slate-500">
-            <Link href={"/login"}>Sign In</Link>
-            <Link href={"/register"}>Create Account</Link>
+            <button className="border-2 border-zinc-500 hover:border-zinc-950 text-zinc-900 py-1 px-3 rounded">
+              <Link href={"/login"}>Login</Link>
+            </button>
+            <button className="bg-zinc-800 hover:bg-zinc-950 text-white py-1 px-3 rounded">
+              <Link href={"/register"}>Create Account</Link>
+            </button>
           </nav>
         )}
       </div>
