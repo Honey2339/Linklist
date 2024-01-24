@@ -73,15 +73,13 @@ export default function NavBar() {
                   My Page
                 </DropdownMenuItem>
               </a>
-              <DropdownMenuItem>Analytics</DropdownMenuItem>
+              <DropdownMenuItem>Analytics (Soon)</DropdownMenuItem>
               <DropdownMenuSeparator />
-              {/* <DropdownMenuItem> */}
               <div className="flex justify-center">
                 <Button onClick={handleSignOutGithub} variant="destructive">
                   Logout
                 </Button>
               </div>
-              {/* </DropdownMenuItem> */}
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
