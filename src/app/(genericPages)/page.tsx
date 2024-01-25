@@ -66,6 +66,14 @@ export default function Home() {
           </button>
         </motion.form>
       </div>
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={h2Animation}
+        className="flex flex-col items-center justify-center"
+      >
+        <Image src="/betterpic.png" height={1200} width={1000} alt="logo" />
+      </motion.div>
       <div className="flex mt-2 items-center justify-center"></div>
       <motion.div
         initial="hidden"

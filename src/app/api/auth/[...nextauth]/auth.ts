@@ -8,6 +8,7 @@ import CredentialProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { db } from "./db";
 import cuid from "cuid";
+import bcrypt from "bcrypt";
 
 export const authOptions: NextAuthOptions = {
   callbacks: {
@@ -76,7 +77,11 @@ export const authOptions: NextAuthOptions = {
         //Login Attempt
         if (flag == 98) {
           if (userExist) {
-            if (userExist.password == password) {
+            const isPasswordValid = await bcrypt.compare(
+              password,
+              userExist.password!
+            );
+            if (isPasswordValid || userExist.password == password) {
               return {
                 id: userExist.id,
                 name: userExist.name,
@@ -94,15 +99,18 @@ export const authOptions: NextAuthOptions = {
           if (!userExist) {
             const userId = cuid();
             if (password && email && name) {
-              const user = await db.user.create({
-                data: {
-                  id: userId,
-                  email: email,
-                  name: name,
-                  password: password,
-                  image: null,
-                  banner: null,
-                },
+              bcrypt.hash(password, 10, async (err, hash) => {
+                if (err) return null;
+                const user = await db.user.create({
+                  data: {
+                    id: userId,
+                    email: email,
+                    name: name,
+                    password: hash,
+                    image: null,
+                    banner: null,
+                  },
+                });
               });
             }
             return { id: userId, name: name, email: email };

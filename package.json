@@ -23,6 +23,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.5",
     "axios": "^1.6.3",
+    "bcrypt": "^5.1.1",
     "chart.js": "^4.4.1",
     "class-variance-authority": "^0.7.0",
     "clipboard-copy": "^4.0.1",
@@ -46,6 +47,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
