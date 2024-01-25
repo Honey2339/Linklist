@@ -45,7 +45,7 @@ export default function PerUserPage() {
       <section className="h-[97vh] w-[1800px] rounded-xl border-2 border-gray-200 shadow-xl">
         {gotUserData?.Message?.displayName ? (
           <div>
-            <div className="absolute top-56 left-1/2 transform -translate-x-1/2">
+            <div className="absolute lg:top-52 top-56 left-1/2 transform -translate-x-1/2">
               <Image
                 src={gotUserData?.Message?.avatar ?? "/LinkTreeLogo.png"}
                 width={150}
@@ -62,7 +62,7 @@ export default function PerUserPage() {
                 className="w-full h-[250px] object-cover rounded-t-lg"
                 alt="banner"
               />
-              <div className="text-center mt-32">
+              <div className="text-center mt-32 lg:mt-24">
                 <h1 className="text-2xl font-semibold">
                   {gotUserData?.Message?.displayName}
                 </h1>
@@ -99,7 +99,7 @@ export default function PerUserPage() {
             <div className="">
               <PerUserProject userId={userId} />
             </div>
-            <div className="mt-32 flex justify-center items-center">
+            <div className="mt-32 lg:mt-5 flex justify-center items-center">
               <a href="http://linklist-honey.vercel.app">
                 <Button variant="link" className="text-sm">
                   Create Your Own List

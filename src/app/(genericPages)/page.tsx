@@ -25,7 +25,7 @@ export default function Home() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 1 } },
   };
   return (
-    <section className="h-[92.2vh] pt-28 p-6 max-w-4xl mx-auto">
+    <section className="h-[92.2vh] lg:pt-14 pt-28 p-6 max-w-4xl mx-auto">
       <div className="max-w-full mb-8">
         <motion.h1
           initial="hidden"
