@@ -23,11 +23,20 @@ export default function PerUserPage() {
           body: JSON.stringify({ userId }),
         });
         const userData = await response.json();
-        console.log(userData);
         setGotUserData(userData);
         setLoading(false);
       };
       fetchData();
+      const increaseCount = async () => {
+        const response = await fetch("/api/routes/increaseCount", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId }),
+        });
+        const countIncrease = await response.json();
+        console.log(countIncrease);
+      };
+      increaseCount();
     }
   }, [userId]);
 

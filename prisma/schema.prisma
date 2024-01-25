@@ -56,13 +56,14 @@ model LinkTreeUser {
     github          String?
     instagram       String?
     youtube         String?
+    count           Int[]    @default([0])
     Projects        UserProjects[]
 }
 
 model UserProjects {
     id              Int     @id @default(autoincrement())
     userId          String  
-    title            String
+    title           String
     description     String
     link            String
     linktreeuser    LinkTreeUser @relation(fields: [userId] , references: [userId])

@@ -73,7 +73,9 @@ export default function NavBar() {
                   My Page
                 </DropdownMenuItem>
               </a>
-              <DropdownMenuItem>Analytics (Soon)</DropdownMenuItem>
+              <a href="/analytics">
+                <DropdownMenuItem>Analytics (Soon)</DropdownMenuItem>
+              </a>
               <DropdownMenuSeparator />
               <div className="flex justify-center">
                 <Button onClick={handleSignOutGithub} variant="destructive">
