@@ -25,7 +25,7 @@ export default function Home() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 1 } },
   };
   return (
-    <section className="h-[92.2vh] max-xl:pt-14 max-xl:text-center pt-28 p-6 max-w-4xl mx-auto">
+    <section className="h-[92.2vh] max-2xl:pt-14 text-center pt-28 p-6 max-w-4xl mx-auto">
       <div className="max-w-full mb-8">
         <motion.h1
           initial="hidden"
@@ -72,7 +72,13 @@ export default function Home() {
         variants={h2Animation}
         className="flex flex-col items-center justify-center"
       >
-        <Image src="/betterpic.png" height={1200} width={1000} alt="logo" />
+        <Image
+          src="/betterpic.png"
+          height={1200}
+          width={1000}
+          alt="logo"
+          className="max-2xl:w-[600px] max-xl:w-[900px]"
+        />
       </motion.div>
       <div className="flex mt-2 items-center justify-center"></div>
       <motion.div
