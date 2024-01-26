@@ -99,7 +99,7 @@ export default function PerUserPage() {
             <div className="">
               <PerUserProject userId={userId} />
             </div>
-            <div className="mt-32 lg:mt-5 flex justify-center items-center">
+            <div className="mt-32 max-xl:mt-8 flex justify-center items-center">
               <a href="http://linklist-honey.vercel.app">
                 <Button variant="link" className="text-sm">
                   Create Your Own List

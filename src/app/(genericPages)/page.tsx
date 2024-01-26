@@ -25,13 +25,13 @@ export default function Home() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 1 } },
   };
   return (
-    <section className="h-[92.2vh] lg:pt-14 pt-28 p-6 max-w-4xl mx-auto">
+    <section className="h-[92.2vh] max-xl:pt-14 max-xl:text-center pt-28 p-6 max-w-4xl mx-auto">
       <div className="max-w-full mb-8">
         <motion.h1
           initial="hidden"
           animate="visible"
           variants={h1Animation}
-          className="font-bold text-zinc-900/95 text-6xl"
+          className="font-bold max-lg:text-5xl text-zinc-900/95 text-6xl"
         >
           Your one link for everything
         </motion.h1>
@@ -39,7 +39,7 @@ export default function Home() {
           initial="hidden"
           animate="visible"
           variants={h2Animation}
-          className="text-zinc-800 text-center text-xl mt-6"
+          className="text-zinc-800 max-lg:text-lg text-center text-xl mt-6"
         >
           Share your links, Social profiles , contact info and more on one page
         </motion.h2>
