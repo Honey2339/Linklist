@@ -16,7 +16,7 @@ import { Line } from "react-chartjs-2";
 
 interface UserClickData {
   countData: {
-    count: number;
+    count: number[];
   };
 }
 
@@ -54,6 +54,9 @@ export default function ChartComponent() {
       },
     },
     scales: {
+      x: {
+        beginAtZero: true,
+      },
       y: {
         beginAtZero: true,
         ticks: {
@@ -80,14 +83,16 @@ export default function ChartComponent() {
   ];
   const currentMonth = currentDate.getMonth() + 1;
   const monthsUpToCurrent = monthNames.slice(0, currentMonth);
-  const labels = [0, monthsUpToCurrent];
+  const labels = ["0", ...monthsUpToCurrent];
   const data = {
     labels,
     datasets: [
       {
         fill: true,
         label: "Clicks",
-        data: [0, userClicks?.countData?.count],
+        data: userClicks?.countData?.count
+          ? [0, ...userClicks.countData?.count]
+          : [],
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
