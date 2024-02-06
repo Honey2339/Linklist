@@ -31,7 +31,7 @@ export default function Home() {
           initial="hidden"
           animate="visible"
           variants={h1Animation}
-          className="font-bold max-lg:text-5xl text-zinc-900/95 text-6xl"
+          className="font-bold max-lg:text-5xl max-sm:text-3xl text-zinc-900/95 text-6xl"
         >
           Your one link for everything
         </motion.h1>
@@ -39,7 +39,7 @@ export default function Home() {
           initial="hidden"
           animate="visible"
           variants={h2Animation}
-          className="text-zinc-800 max-lg:text-lg text-center text-xl mt-6"
+          className="text-zinc-800 max-lg:text-lg max-sm:text-sm text-center text-xl mt-6"
         >
           Share your links, Social profiles , contact info and more on one page
         </motion.h2>
@@ -54,12 +54,12 @@ export default function Home() {
           <span className="bg-white py-4 pl-4">linklist.to/</span>
           <input
             type="text"
-            className="py-4 focus:outline-none focus:border-none"
+            className="py-4 max-sm:py-4 max-sm:max-w-[100px] focus:outline-none focus:border-none"
             placeholder="username"
           />
           <button
             type="submit"
-            className="bg-black text-white py-4 px-6"
+            className="bg-black text-white max-sm:px-3 py-4 px-6"
             onClick={handleHomeToSignInRedirect}
           >
             Join For Free
@@ -77,7 +77,7 @@ export default function Home() {
           height={1200}
           width={1000}
           alt="logo"
-          className="max-2xl:w-[600px] max-xl:w-[900px]"
+          className="max-2xl:w-[600px] max-sm:mt-10 max-xl:w-[900px]"
         />
       </motion.div>
       <div className="flex mt-2 items-center justify-center"></div>
@@ -85,7 +85,7 @@ export default function Home() {
         initial="hidden"
         animate="visible"
         variants={waveDelay}
-        className="ocean"
+        className="ocean max-sm:hidden"
       >
         <div className="wave"></div>
         <div className="wave"></div>
