@@ -3,9 +3,14 @@
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
+  const { data: session } = useSession();
   const router = useRouter();
+  if (session?.user.name) {
+    router.push("/profile");
+  }
   const handleHomeToSignInRedirect = async (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {

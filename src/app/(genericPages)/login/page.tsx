@@ -16,12 +16,11 @@ import { Input } from "@/components/ui/input";
 import { Space_Grotesk } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { FaGithub } from "react-icons/fa";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 const space = Space_Grotesk({ subsets: ["latin"], weight: "700" });
-// Define form schema using Zod
 const FormSchema = z.object({
   email: z.string().email(),
   password: z
@@ -30,13 +29,18 @@ const FormSchema = z.object({
 });
 
 export default function LoginPage() {
+  const router = useRouter();
+  const { data: session } = useSession();
+  if (session?.user.name) {
+    router.push("/profile");
+  }
   const form = useForm({ resolver: zodResolver(FormSchema) });
   const handleGithubLogin = () => {
     signIn("github", { callbackUrl: "/mypage" });
   };
 
   const [errorMsg, setErrorMsg] = useState<string | null | undefined>(null);
-  const router = useRouter();
+
   async function onSubmit(data: any) {
     console.log(data);
     const flag = 98;
@@ -51,7 +55,7 @@ export default function LoginPage() {
         setErrorMsg(null);
       }, 2000);
       if (data?.status == 200) {
-        router.push("/mypage");
+        router.push("/profile");
       }
     });
   }
