@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Space_Grotesk } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { FaGithub } from "react-icons/fa";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { redirect, useRouter } from "next/navigation";
 
@@ -38,7 +38,11 @@ const FormSchema = z
     path: ["confirmPassword"],
   });
 export default function RegisterPage() {
+  const { data: session } = useSession();
   const router = useRouter();
+  if (session?.user.name) {
+    router.push("/profile");
+  }
   const form = useForm({ resolver: zodResolver(FormSchema) });
   const [errorMsg, setErrorMsg] = useState<string | null | undefined>(null);
 

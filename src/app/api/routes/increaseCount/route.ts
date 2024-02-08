@@ -8,12 +8,18 @@ export async function POST(req: NextRequest, res: NextResponse) {
       where: { userId: userId },
       select: { count: true },
     });
-    const currentTime = new Date();
-    const currentMonth = currentTime.getMonth();
-    await db.linkTreeUser.updateMany({
-      where: { userId: userId },
-      data: { count: [countData?.count[currentMonth]! + 1] },
-    });
+
+    if (countData) {
+      const currentTime = new Date();
+      const currentMonth = currentTime.getMonth();
+      const updatedCount = [...countData.count];
+      updatedCount[currentMonth] = (updatedCount[currentMonth] || 0) + 1;
+
+      await db.linkTreeUser.updateMany({
+        where: { userId: userId },
+        data: { count: updatedCount },
+      });
+    }
   }
   return NextResponse.json({ Message: "Count Increased" });
 }

@@ -40,10 +40,14 @@ export default function NavBar() {
 
           <nav className="flex items-center gap-4 text-slate-500 text-sm">
             <Link href="/about">
-              <span className="hover:bg-gray-200 p-2 rounded">About</span>
+              <span className="hover:bg-gray-200 max-sm:hidden p-2 rounded">
+                About
+              </span>
             </Link>
             <Link href="/contact">
-              <span className="hover:bg-gray-200 p-2 rounded">Contact</span>
+              <span className="hover:bg-gray-200 max-sm:hidden p-2 rounded">
+                Contact
+              </span>
             </Link>
           </nav>
         </div>
